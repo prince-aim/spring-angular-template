@@ -1,4 +1,4 @@
-name: Build & Test Backend + Frontend
+name: CI/CD Pipeline
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,3 +33,20 @@ jobs:
         run: |
           npm ci
           npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy backend to Fly.io
+        working-directory: backend
+        run: |
+          fly deploy --config fly.toml --remote-only
+
+      - name: Deploy frontend to Fly.io
+        working-directory: frontend
+        run: |
+          fly deploy --config fly.toml --remote-only
