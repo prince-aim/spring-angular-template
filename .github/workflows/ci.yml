@@ -41,12 +41,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy backend to Fly.io
+      - name: Deploy Backend to Fly.io
         working-directory: backend
         run: |
-          fly deploy --config fly.toml --remote-only
+          curl -L https://fly.io/install.sh | sh
+          export FLYCTL_INSTALL="$HOME/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          flyctl deploy --app "$BACKEND_FLY_APP" --dockerfile Dockerfile --remote-only --config fly.toml
 
-      - name: Deploy frontend to Fly.io
+
+      - name: Deploy Frontend to Fly.io
         working-directory: frontend
         run: |
-          fly deploy --config fly.toml --remote-only
+          curl -L https://fly.io/install.sh | sh
+          export FLYCTL_INSTALL="$HOME/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          flyctl deploy --app "$FRONTEND_FLY_APP" --dockerfile Dockerfile --remote-only --config fly.toml
