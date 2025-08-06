@@ -1,0 +1,36 @@
+name: Build & Test Backend + Frontend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build Backend with Maven
+        working-directory: spring-angular-template/backend
+        run: mvn clean verify
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and build Angular frontend
+        working-directory: spring-angular-template/frontend
+        run: |
+          npm ci
+          npm run build
