@@ -21,7 +21,7 @@ jobs:
           java-version: '21'
 
       - name: Build Backend with Maven
-        working-directory: spring-angular-template/backend
+        working-directory: backend
         run: mvn clean verify
 
       - name: Set up Node.js
@@ -30,7 +30,7 @@ jobs:
           node-version: '20'
 
       - name: Install and build Angular frontend
-        working-directory: spring-angular-template/frontend
+        working-directory: frontend
         run: |
           npm ci
           npm run build
