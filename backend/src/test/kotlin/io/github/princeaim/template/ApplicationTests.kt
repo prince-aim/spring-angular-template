@@ -1,4 +1,4 @@
-package io.github.princeaim.spring_angular_template
+package io.github.princeaim.template
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
