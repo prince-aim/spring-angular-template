@@ -28,15 +28,17 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
       - name: Run Angular tests
         working-directory: frontend
         run: npm test -- --watch=false --browsers=ChromeHeadless
 
-      - name: Install and build Angular frontend
+      - name: Build Angular frontend
         working-directory: frontend
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
 
   deploy:
     needs: build
